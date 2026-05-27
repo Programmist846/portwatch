@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "portwatch"
+version = "1.0.0"
+description = "Network port & service monitor with Telegram/Email alerts and uptime history"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+yaml = ["pyyaml>=6.0"]
+dev  = ["pytest>=7.0", "pytest-cov"]
+
+[project.scripts]
+portwatch = "portwatch.cli:main"

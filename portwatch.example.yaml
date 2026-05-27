@@ -1,0 +1,52 @@
+# PortWatch configuration example
+interval: 60          # seconds between checks
+db_path: portwatch.db # SQLite database file
+
+hosts:
+  - name: "Home NAS (SSH)"
+    host: "192.168.1.10"
+    port: 22
+    protocol: tcp
+    timeout: 5
+    tags: [nas, ssh]
+
+  - name: "VPN Server"
+    host: "10.8.0.1"
+    port: 1194
+    protocol: tcp
+    timeout: 3
+    tags: [vpn]
+
+  - name: "Home Web Server"
+    host: "192.168.1.20"
+    port: 80
+    protocol: http
+    http_url: "http://192.168.1.20/health"
+    http_expected_status: 200
+    timeout: 5
+    tags: [web]
+
+  - name: "Plex Media Server"
+    host: "192.168.1.10"
+    port: 32400
+    protocol: tcp
+    timeout: 5
+    tags: [media, plex]
+
+notifications:
+  telegram:
+    enabled: true
+    token: "123456:ABC-DEF..."
+    chat_id: "-100123456789"
+    notify_on_recovery: true
+
+  email:
+    enabled: false
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    username: "you@gmail.com"
+    password: "app-password"
+    recipients:
+      - "you@gmail.com"
+    use_tls: true
+    notify_on_recovery: true

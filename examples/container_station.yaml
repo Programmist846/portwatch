@@ -1,0 +1,28 @@
+# QNAP Container Station — docker-compose for PortWatch
+# Поместите этот файл в /share/Container/portwatch/
+# Создайте portwatch.yaml рядом с docker-compose файлом
+
+version: "3.8"
+services:
+  portwatch:
+    image: python:3.11-slim
+    container_name: portwatch
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./:/app                  # монтируем директорию с кодом и конфигом
+      - portwatch_data:/app/data # постоянное хранилище БД
+    environment:
+      - TZ=Asia/Almaty
+      - PYTHONUNBUFFERED=1
+    command: >
+      bash -c "pip install --quiet pyyaml &&
+               python -m portwatch.cli run -c /app/portwatch.yaml"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import portwatch"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  portwatch_data:
